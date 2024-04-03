@@ -1,6 +1,5 @@
 from typing import Tuple, Union, List
 from datetime import datetime 
-import json
 
 import xgboost as xgb
 import pandas as pd
