@@ -1,5 +1,6 @@
-from typing import Tuple, Union, List
+import os
 from datetime import datetime 
+from typing import Tuple, Union, List
 
 import xgboost as xgb
 import pandas as pd
@@ -161,7 +162,10 @@ class DelayModel:
             (List[int]): predicted targets.
         """
 
-        self._model.load_model("delay_model.model")
+        current_dir = os.path.dirname(__file__)
+        model_path = os.path.join(current_dir, "delay_model.model")
+        self._model.load_model(model_path)
+
         targets_array = self._model.predict(features)
         targets_list = targets_array.tolist()
         targets = [int(element) for element in targets_list]
