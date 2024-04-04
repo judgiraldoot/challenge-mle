@@ -33,3 +33,14 @@ jobs:
       - name: Run API tests
         run: |
           make api-test
+
+  trigger_continuous_deployment:
+    name: Trigger Continuous Deployment
+    runs-on: ubuntu-latest
+    needs: build_and_test
+    if: ${{ always() }}
+    steps:
+      - name: Trigger Continuous Deployment Workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: 'Continuous Deployment'
