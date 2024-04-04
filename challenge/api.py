@@ -5,7 +5,7 @@ import fastapi
 import pandas as pd
 from fastapi import HTTPException
 
-from .model import DelayModel
+from challenge.model import DelayModel
 
 app = fastapi.FastAPI()
 
@@ -41,4 +41,4 @@ async def post_predict(data: dict) -> dict:
     return {"predict": predictions}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8080)
