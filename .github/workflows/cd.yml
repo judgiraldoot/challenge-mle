@@ -21,6 +21,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Build and push Docker image
+      run: |
+        docker build -t us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest .
+        docker push us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest
+
     - name: GCP authentication
       uses: 'google-github-actions/auth@v2'
       with:
