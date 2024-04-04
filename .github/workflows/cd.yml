@@ -28,6 +28,7 @@ jobs:
 
     - name: Build and push Docker image
       run: |
+        gcloud auth configure-docker us-docker.pkg.dev
         docker build -t us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest .
         docker push us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest
 
