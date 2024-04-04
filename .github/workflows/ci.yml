@@ -33,9 +33,3 @@ jobs:
       - name: Run API tests
         run: |
           make api-test
-
-      - name: Trigger other workflow
-        uses: peter-evans/workflow-dispatch@v1
-        with:
-          workflow: cd.yml
-          token: ${{ secrets.GITHUB_TOKEN }}
