@@ -5,7 +5,7 @@ import fastapi
 import pandas as pd
 from fastapi import HTTPException
 
-from model import DelayModel
+from .model import DelayModel
 
 app = fastapi.FastAPI()
 
