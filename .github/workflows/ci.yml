@@ -39,3 +39,4 @@ jobs:
         with:
           workflow: Name-of-your-other-workflow.yml
           token: ${{ secrets.GITHUB_TOKEN }}
+          
