@@ -29,4 +29,4 @@ jobs:
       uses: google-github-actions/deploy-cloudrun@v2
       with:
         service: delay-model 
-        image: us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest 
+        image: us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest  
