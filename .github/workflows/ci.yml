@@ -37,6 +37,6 @@ jobs:
       - name: Trigger other workflow
         uses: peter-evans/workflow-dispatch@v1
         with:
-          workflow: Name-of-your-other-workflow.yml
+          workflow: cd.yml
           token: ${{ secrets.GITHUB_TOKEN }}
           
