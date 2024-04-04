@@ -1,8 +1,8 @@
-name: Continuos Deployment
+name: 'Continuos Deployment'
 
 on:
   workflow_run:
-    workflows: [Build and Test]
+    workflows: ['Continuous Integration']
     types:
       - completed
 
