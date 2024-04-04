@@ -11,14 +11,12 @@ jobs:
   on-success:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    deploy_and_test_cloud_run_service:
-      name: Deploy and test cloud run service
+  
+    permissions:
+      contents: read
+      id-token: write
 
-      permissions:
-        contents: read
-        id-token: write
-
-      steps:
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
