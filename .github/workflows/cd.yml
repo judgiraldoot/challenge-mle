@@ -22,7 +22,7 @@ jobs:
 
     - uses: google-github-actions/auth@v2
       with:
-        workload_identity_provider: projects/586822769377/locations/global/workloadIdentityPools/gthb-actions-pool/providers/challenge-mle
+        workload_identity_provider: projects/586822769377/locations/global/workloadIdentityPools/gthb-actions-pool/providers/judgiraldoot-challenge-mle
         service_account: sa-cd-gthb-actions@mle-challenge-419205.iam.gserviceaccount.com
 
     - id: deploy
