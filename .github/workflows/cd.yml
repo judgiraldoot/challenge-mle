@@ -1,55 +1,53 @@
 name: 'Continuos Deployment'
 
 on:
-  workflow_run:
-    workflows: ['Continuous Integration']
-    types: [completed]
-    branches:
-      - 'develop'
-  # workflow_dispatch:
+  # workflow_run:
+  #   workflows: ['Continuous Integration']
+  #   types: [completed]
+  #   branches:
+  #     - 'develop'
+  workflow_dispatch:
 
 jobs:
-  on-success:
-      runs-on: ubuntu-latest
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    # deploy_and_test_cloud_run_service:
-    #   name: Deploy and test cloud run service
+  deploy_and_test_cloud_run_service:
+    name: Deploy and test cloud run service
+    runs-on: ubuntu-latest
 
-      # permissions:
-      #   contents: read
-      #   id-token: write
+    permissions:
+      contents: read
+      id-token: write
 
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-        - name: GCP authentication
-          uses: 'google-github-actions/auth@v2'
-          with:
-            credentials_json: '${{ secrets.GCP_SA_KEY }}'
+      - name: GCP authentication
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
-        - name: Build and push Docker image
-          run: |
-            gcloud auth configure-docker us-docker.pkg.dev
-            docker build -t us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest .
-            docker push us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest
+      - name: Build and push Docker image
+        run: |
+          gcloud auth configure-docker us-docker.pkg.dev
+          docker build -t us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest .
+          docker push us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest
 
-        - name: Deploy cloud run
-          uses: google-github-actions/deploy-cloudrun@v2
-          with:
-            service: delay-model
-            image: us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest
+      - name: Deploy cloud run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: delay-model
+          image: us-docker.pkg.dev/mle-challenge-419205/gcr.io/delay_model:latest
 
-        - name: Set up Python
-          uses: actions/setup-python@v2
-          with:
-            python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
 
-        - name: Install dependencies
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements-test.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-test.txt
 
-        - name: Run stress tests
-          run: |
-            make stress-test
+      - name: Run stress tests
+        run: |
+          make stress-test
