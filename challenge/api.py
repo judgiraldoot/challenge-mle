@@ -1,5 +1,3 @@
-from typing import List
-
 import uvicorn
 import fastapi
 import pandas as pd
@@ -11,13 +9,27 @@ app = fastapi.FastAPI()
 
 @app.get("/health", status_code=200)
 async def get_health() -> dict:
+    """
+    Endpoint to check the health status of the API.
+
+    Returns:
+        dict: Health status.
+    """
     return {
         "status": "OK"
     }
 
 @app.post("/predict", status_code=200)
 async def post_predict(data: dict) -> dict:
+    """
+    Endpoint to predict delays for new flights.
 
+    Args:
+        data (dict): JSON object containing flight data.
+
+    Returns:
+        dict: Predicted delays for the given flights.
+    """
     TIPOVUELO = {'I', 'N'}
     OPERA = {'American Airlines', 'Air Canada', 'Air France', 'Aeromexico',
         'Aerolineas Argentinas', 'Austral', 'Avianca', 'Alitalia',
