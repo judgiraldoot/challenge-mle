@@ -1,26 +1,26 @@
 FROM python:3.10
 
-# Define el directorio de trabajo
+# Set the working directory
 WORKDIR /app
 
-# Copia todo el contenido de la carpeta "challenge" al directorio de trabajo en el contenedor
+# Copy all contents from the "challenge" folder to the working directory in the container
 COPY ./challenge /app/challenge
 
-# Copia el archivo requirements.txt al directorio de trabajo
+# Copy the requirements.txt file to the working directory
 COPY requirements.txt /app/requirements.txt
 
-# Elimina el archivo exploration.ipynb y los archivos .pyc (archivos compilados de Python)
+# Remove the exploration.ipynb file and .pyc files (Python compiled files)
 RUN rm -f /app/challenge/exploration.ipynb && \
     find /app/challenge -name '*.pyc' -delete
 
-# Instala las dependencias especificadas en requirements.txt
+# Install dependencies specified in requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Expone el puerto 8080 para que sea accesible desde fuera del contenedor
+# Expose port 8080 to be accessible from outside the container
 EXPOSE 8080
 
-# Establece la variable de entorno PYTHONPATH al directorio de trabajo
+# Set the PYTHONPATH environment variable to the working directory
 ENV PYTHONPATH="/app"
 
-# Define el comando para ejecutar la aplicación cuando se inicie el contenedor
+# Define the command to run the application when the container starts
 CMD ["uvicorn", "challenge.api:app", "--host", "0.0.0.0", "--port", "8080"]
