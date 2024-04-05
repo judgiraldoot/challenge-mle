@@ -2,10 +2,10 @@ name: 'Continuos Deployment'
 
 on:
   workflow_run:
-    workflows: ["Continuous Integration"]
-    types: [completed]
-    branches:
-      - 'develop'
+    workflows:
+      - Continuous Integration
+    types:
+      - completed
 
 jobs:
   deploy_and_test_cloud_run_service:
