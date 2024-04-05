@@ -142,3 +142,6 @@ __pypackages__/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# folders
+reports

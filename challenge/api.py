@@ -1,23 +1,35 @@
-from typing import List
-
 import uvicorn
 import fastapi
 import pandas as pd
 from fastapi import HTTPException
 
-from .model import DelayModel
+from challenge.model import DelayModel
 
 app = fastapi.FastAPI()
 
 @app.get("/health", status_code=200)
 async def get_health() -> dict:
+    """
+    Endpoint to check the health status of the API.
+
+    Returns:
+        dict: Health status.
+    """
     return {
         "status": "OK"
     }
 
 @app.post("/predict", status_code=200)
 async def post_predict(data: dict) -> dict:
+    """
+    Endpoint to predict delays for new flights.
 
+    Args:
+        data (dict): JSON object containing flight data.
+
+    Returns:
+        dict: Predicted delays for the given flights.
+    """
     TIPOVUELO = {'I', 'N'}
     OPERA = {'American Airlines', 'Air Canada', 'Air France', 'Aeromexico',
         'Aerolineas Argentinas', 'Austral', 'Avianca', 'Alitalia',
@@ -41,4 +53,4 @@ async def post_predict(data: dict) -> dict:
     return {"predict": predictions}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8080)
