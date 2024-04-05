@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - develop
-    tags:
-      - workflow/*
   pull_request:
     branches:
       - main
