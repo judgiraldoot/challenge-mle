@@ -6,14 +6,28 @@ import xgboost as xgb
 import pandas as pd
 import numpy as np
 class DelayModel:
+    """
+    A class to represent a model for predicting flight delays.
 
-    def __init__(
-        self
-    ):
+    Attributes:
+        _model (xgb.XGBClassifier): XGBoost classifier model for delay prediction.
+    """
+
+    def __init__(self):
+        """Initialize the DelayModel class."""
         self._model = xgb.XGBClassifier(random_state=1, learning_rate=0.01, scale_pos_weight=4.44) 
 
     @staticmethod
     def is_high_season(fecha):
+        """
+        Check if the date corresponds to a high season period.
+
+        Args:
+            fecha (str): Date in the format '%Y-%m-%d %H:%M:%S'.
+
+        Returns:
+            int: 1 if it's a high season, 0 otherwise.
+        """
         fecha_año = int(fecha.split('-')[0])
         fecha = datetime.strptime(fecha, '%Y-%m-%d %H:%M:%S')
         range1_min = datetime.strptime('15-Dec', '%d-%b').replace(year = fecha_año)
@@ -35,6 +49,15 @@ class DelayModel:
 
     @staticmethod
     def get_min_diff(data: pd.DataFrame):
+        """
+        Calculate the difference in minutes between two dates.
+
+        Args:
+            data (pd.DataFrame): DataFrame containing 'Fecha-O' and 'Fecha-I' columns.
+
+        Returns:
+            float: Difference in minutes between 'Fecha-O' and 'Fecha-I'.
+        """
         fecha_o = datetime.strptime(data['Fecha-O'], '%Y-%m-%d %H:%M:%S')
         fecha_i = datetime.strptime(data['Fecha-I'], '%Y-%m-%d %H:%M:%S')
         min_diff = ((fecha_o - fecha_i).total_seconds())/60
@@ -42,6 +65,15 @@ class DelayModel:
     
     @staticmethod
     def get_period_day(date):
+        """
+        Determine the period of the day based on the given time.
+
+        Args:
+            date (str): Time in the format '%Y-%m-%d %H:%M:%S'.
+
+        Returns:
+            str: Period of the day ('morning', 'afternoon', or 'night').
+        """
         date_time = datetime.strptime(date, '%Y-%m-%d %H:%M:%S').time()
         morning_min = datetime.strptime("05:00", '%H:%M').time()
         morning_max = datetime.strptime("11:59", '%H:%M').time()
@@ -79,7 +111,6 @@ class DelayModel:
             or
             pd.DataFrame: features.
         """
-
         if target_column == 'high_season':
             y = data['Fecha-I'].apply(DelayModel.is_high_season).to_frame(name='high_season')
         elif target_column == "min_diff":
@@ -161,7 +192,6 @@ class DelayModel:
         Returns:
             (List[int]): predicted targets.
         """
-
         current_dir = os.path.dirname(__file__)
         model_path = os.path.join(current_dir, "delay_model.model")
         self._model.load_model(model_path)
