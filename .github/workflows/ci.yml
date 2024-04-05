@@ -33,14 +33,3 @@ jobs:
       - name: Run API tests
         run: |
           make api-test
-
-  trigger_continuous_deployment:
-    name: Trigger Continuous Deployment
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
-    needs: build_and_test
-    steps:
-      - name: Trigger Continuous Deployment Workflow
-        uses: actions/workflow-dispatch@v2
-        with:
-          workflow: 'Continuous Deployment'
